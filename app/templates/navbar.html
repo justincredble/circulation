@@ -1,0 +1,55 @@
+<nav class="navbar  navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ url_for('main.index') }}">Circulation</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li {%- if request.path == url_for('book.index') %} class="active"{%- endif -%} ><a
+                        href="{{ url_for('book.index') }}">Books</a></li>
+                {%- if current_user.is_authenticated -%}
+                    <li {%- if request.path == url_for('library.index') %} class="active"{%- endif -%} ><a
+                            href="{{ url_for('library.index') }}">Libraries</a></li>
+                    {%- if current_user.can(Permission.ADD_BOOK) -%}
+                        <li {%- if request.path == url_for('book.add') %} class="active"{%- endif -%} ><a
+                                href="{{ url_for('book.add') }}">Add book</a></li>
+                    {%- endif -%}
+                    <li {%- if request.path == url_for('library.add') %} class="active"{%- endif -%} ><a
+                            href="{{ url_for('library.add') }}">Add library</a></li>
+                    <li {%- if request.path == url_for('user.index') %} class="active"{%- endif -%} ><a
+                            href="{{ url_for('user.index') }}">Users</a></li>
+                    <li {%- if request.path == url_for('log.index') %} class="active"{%- endif -%} ><a
+                            href="{{ url_for('log.index') }}">Activity</a></li>
+                {%- endif -%}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {%- if current_user.is_authenticated -%}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ current_user.name }}
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" {% if request.path == url_for('user.detail',user_id=current_user.id) -%}
+                            class="active"{%- endif -%} href="{{ url_for('user.detail',user_id=current_user.id) }}">Profile</a>
+                        <a class="dropdown-item" href=#>Help</a>
+                        <a class="dropdown-item" href="{{ url_for('auth.logout') }}">Log out</a>
+                    </div>
+                </li>
+                {%- else -%}
+                <li><a href="{{ url_for('auth.login') }}">Log in</a></li>
+                {%- endif -%}
+            </ul>
+
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>

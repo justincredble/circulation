@@ -1,0 +1,19 @@
+{%- from 'bootstrap/utils.html' import flashed_messages,icon -%}
+{# will display all flashed massages #}
+{%- with icon_transform={
+    'success':icon('ok'),
+    'danger':icon('ban-circle'),
+    'info': icon('info-sign'),
+    'warning': icon('alert')} -%}
+    {%- set messages=get_flashed_messages(with_categories=True) -%}
+    {%- if messages -%}
+        {%- for category, msg in messages -%}
+            <div class="alert alert-{{ category }} alert-dismissible animated bounceIn delay-{{ loop.index0 }}"
+                 role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                {{ icon_transform.get(category) ~' '~ msg }}
+            </div>
+        {%- endfor -%}
+    {%- endif -%}
+{%- endwith -%}
